@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "/home/kris/Projects/hello_world"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"freertos.h": "c"
+		}
+	}
+}

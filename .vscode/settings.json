@@ -1,0 +1,26 @@
+{
+  "C_Cpp.clang_format_style": "Visual Studio",
+  "editor.formatOnSave": false,
+  "[cpp]": {
+    "editor.quickSuggestions": true
+  },
+  "[c]": {
+    "editor.quickSuggestions": true
+  },
+  "C_Cpp.intelliSenseEngineFallback": "Enabled",
+  "idf.port": "/dev/ttyUSB0",
+  "files.associations": {
+    "esp_wifi.h": "c",
+    "freertos.h": "c",
+    "esp_event.h": "c",
+    "esp_event_legacy.h": "c",
+    "*.ipp": "c",
+    "*.tcc": "c",
+    "fstream": "c",
+    "*.inc": "c",
+    "touch_pad.h": "c",
+    "touch_sensor.h": "c",
+    "system_error": "cpp",
+    "ratio": "c"
+  }
+}
