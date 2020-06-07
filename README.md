@@ -15,9 +15,12 @@ ESP32 supports reading up to ten capacitive touch pad sensors T0 - T9, connected
 
 ```
 Touch Sensor filter mode read, the output format is: 
-Touchpad num:[raw data, filtered data]
+Touchpad num:[CHxx, raw_data]
 
 [CH0,dddd|CH3,dddd|...|CHn,dddd]
+
+If you use enable scale the output will be
+[CHxx,scaleddata]
 
 If you want to modify the code to read another touch channel please modify this line locate on /main/esp32/main.c
 line 20 --> static Touch_Sensor_t g_tp_sensor[] ={CREATE_TOUCH_SENSOR("CH0",0),CREATE_TOUCH_SENSOR("CH3",3)};
