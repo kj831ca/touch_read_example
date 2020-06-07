@@ -12,6 +12,16 @@
 
 typedef struct
 {
+    short sensReading[20];
+    short qActualRead[20];
+    uint8_t qBaseNum;
+    short xNum;
+    int paramCount;
+
+}tCalibration_Table;
+
+typedef struct
+{
     /* data */
     char name[10];
     uint8_t num;
@@ -21,9 +31,13 @@ typedef struct
     uint16_t filtered_value;
     uint16_t threshold;
     bool enable;
+    bool useScale;
+    tCalibration_Table *calTable;
 }Touch_Sensor_t;
 
-#define CREATE_TOUCH_SENSOR(name,tp_num) {#name,tp_num,0,1,0,0,0,true}
+
+#define CREATE_TOUCH_SENSOR(name,tp_num) {#name,tp_num,0,1,0,0,0,true,false,0}
+#define CREATE_TOUCH_SENSOR_CAL(name,tp_num,table) {#name,tp_num,0,1,0,0,500,true,true,#table}
 
 typedef struct
 {
@@ -41,6 +55,8 @@ typedef struct
  //esp_err_t InitTPSensors(Touch_Sensor_t * sensor, int len, uint16_t masking,uint32_t filterPeriod);
  esp_err_t InitTPSensors(Touch_Sensor_t * sensor, int len, uint32_t filterPeriod);
  esp_err_t ReadTPSensors(Touch_Sensor_t * sensor, int len);
+ int16_t ScaleSensor(Touch_Sensor_t *sensor);
+ void EnableScale(Touch_Sensor_t *sensor, tCalibration_Table *tbl, uint16_t threshold);
  void vTouchReadTask(void *pvParameter);
  QueueHandle_t InitTouchPadTask(tTouch_Sensor_Obj * touch_obj);   
 

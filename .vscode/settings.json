@@ -21,6 +21,8 @@
     "touch_pad.h": "c",
     "touch_sensor.h": "c",
     "system_error": "cpp",
-    "ratio": "c"
+    "ratio": "c",
+    "stdio.h": "c",
+    "esp_log.h": "c"
   }
 }
