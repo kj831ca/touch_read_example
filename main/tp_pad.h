@@ -12,7 +12,7 @@
 
 typedef struct
 {
-    short sensReading[20];
+    int32_t sensReading[20];
     short qActualRead[20];
     uint8_t qBaseNum;
     short xNum;

@@ -43,15 +43,20 @@ esp_err_t InitTPSensors(Touch_Sensor_t * sensors, int len,uint32_t filterPeriod)
  int16_t ScaleSensor(Touch_Sensor_t *sensor)
  {
     int32_t tmpValue;
-
+    int32_t rawValue; 
     if(sensor->calTable == NULL)
         return sensor->raw_value;
 
     tCalibration_Table *tbl = sensor->calTable;
     int index ;
+
+    //Convert sensor->raw_value to Q number.
+    rawValue = (int32_t)sensor->raw_value << tbl->qBaseNum;
+
     //search table if sensor reading is between value
     if(sensor->raw_value >= sensor->threshold) return 0;
-    if(sensor->raw_value >=tbl->sensReading[0])
+    //Return value of 1/QBaseNum if sensor value is between 0 to 0.5
+    if(rawValue >=tbl->sensReading[0])
     {
         tmpValue = 1 * tbl->xNum;
         tmpValue >>= tbl->qBaseNum;
@@ -61,14 +66,14 @@ esp_err_t InitTPSensors(Touch_Sensor_t * sensors, int len,uint32_t filterPeriod)
     {
         if(tbl->sensReading[index]>tbl->sensReading[index+1])
         {
-            if((sensor->raw_value <= tbl->sensReading[index]) && (sensor->raw_value >= tbl->sensReading[index+1]))
+            if((rawValue <= tbl->sensReading[index]) && (rawValue >= tbl->sensReading[index+1]))
             {
                 break;
             }
 
             if(tbl->sensReading[index]<tbl->sensReading[index+1])
             {
-                if((sensor->raw_value >= tbl->sensReading[index]) && (sensor->raw_value <= tbl->sensReading[index+1]))
+                if((rawValue >= tbl->sensReading[index]) && (rawValue <= tbl->sensReading[index+1]))
                 break;
             }
         }
@@ -84,9 +89,11 @@ esp_err_t InitTPSensors(Touch_Sensor_t * sensors, int len,uint32_t filterPeriod)
     int16_t ya, yb;
 
     //Convert number into Q-Base format
-    xa = tbl->sensReading[index] << tbl->qBaseNum; 
-    xb = tbl->sensReading[index+1] << tbl->qBaseNum;
-    x  = sensor->raw_value << tbl->qBaseNum; 
+    //xa = tbl->sensReading[index] << tbl->qBaseNum; 
+    //xb = tbl->sensReading[index+1] << tbl->qBaseNum;
+    xa = tbl->sensReading[index] ; 
+    xb = tbl->sensReading[index+1] ;
+    x  = rawValue; 
         
     ya = tbl->qActualRead[index]; //This number already in Q-Base format
     yb = tbl->qActualRead[index+1];
